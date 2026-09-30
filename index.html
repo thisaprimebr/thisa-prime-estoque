@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thisa Prime | Controle de Estoque</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="brand"><div class="logo">TP</div><div><h1>Thisa Prime</h1><span>Controle de Estoque</span></div></div>
+    <h2>Acessar sistema</h2>
+    <input id="loginUser" placeholder="Usuário" value="admin">
+    <input id="loginPass" type="password" placeholder="Senha" value="admin123">
+    <button class="primary full" onclick="login()">Entrar</button>
+    <p id="loginMsg" class="error"></p>
+    <small>Demo inicial: admin / admin123</small>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <aside class="sidebar">
+    <div class="brand side-brand"><div class="logo">TP</div><div><strong>Thisa Prime</strong><small>Estoque</small></div></div>
+    <button class="nav active" data-page="dashboard" onclick="showPage('dashboard')">📊 Dashboard</button>
+    <button class="nav" data-page="materials" onclick="showPage('materials')">📦 Materiais</button>
+    <button class="nav" data-page="movement" onclick="showPage('movement')">↕ Movimentação</button>
+    <button class="nav" data-page="requests" onclick="showPage('requests')">📝 Solicitações</button>
+    <button class="nav" data-page="history" onclick="showPage('history')">🕘 Histórico</button>
+    <button class="nav" data-page="users" onclick="showPage('users')">👥 Usuários</button>
+    <div class="side-bottom"><span id="loggedUser"></span><button class="logout" onclick="logout()">Sair</button></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">THISА PRIME</span><h2 id="pageTitle">Dashboard</h2></div><button class="mobile-menu" onclick="toggleSide()">☰</button></header>
+
+    <section id="dashboard" class="page">
+      <div class="cards">
+        <div class="card"><span>Materiais cadastrados</span><b id="kpiMaterials">0</b></div>
+        <div class="card"><span>Unidades em estoque</span><b id="kpiUnits">0</b></div>
+        <div class="card warning"><span>Estoque baixo</span><b id="kpiLow">0</b></div>
+        <div class="card danger"><span>Solicitações abertas</span><b id="kpiRequests">0</b></div>
+      </div>
+      <div class="grid2">
+        <div class="panel"><div class="panel-head"><h3>Estoque atual</h3><input id="dashSearch" oninput="renderDashboard()" placeholder="Pesquisar..."></div><div id="stockTable"></div></div>
+        <div class="panel"><div class="panel-head"><h3>Últimas movimentações</h3></div><div id="recentHistory"></div></div>
+      </div>
+    </section>
+
+    <section id="materials" class="page hidden">
+      <div class="panel"><div class="panel-head"><h3>Materiais</h3><button class="primary" onclick="openMaterial()">+ Novo material</button></div>
+      <div class="toolbar"><input id="materialSearch" oninput="renderMaterials()" placeholder="Pesquisar material, código ou categoria..."></div>
+      <div id="materialsTable"></div></div>
+    </section>
+
+    <section id="movement" class="page hidden">
+      <div class="panel"><div class="panel-head"><h3>Registrar movimentação</h3></div>
+        <div class="form-grid">
+          <label>Material<select id="moveMaterial"></select></label>
+          <label>Tipo<select id="moveType"><option value="entrada">Entrada</option><option value="saida">Saída</option></select></label>
+          <label>Quantidade<input id="moveQty" type="number" min="1" value="1"></label>
+          <label>Observação<input id="moveNote" placeholder="Ex.: material recebido do fornecedor"></label>
+        </div>
+        <button class="primary" onclick="saveMovement()">Registrar</button>
+      </div>
+      <div class="panel"><div class="panel-head"><h3>Movimentações</h3></div><div id="movementTable"></div></div>
+    </section>
+
+    <section id="requests" class="page hidden">
+      <div class="panel"><div class="panel-head"><h3>Solicitações de materiais</h3><button class="primary" onclick="openRequest()">+ Nova solicitação</button></div><div id="requestsTable"></div></div>
+    </section>
+
+    <section id="history" class="page hidden">
+      <div class="panel"><div class="panel-head"><h3>Histórico do sistema</h3></div><div id="historyTable"></div></div>
+    </section>
+
+    <section id="users" class="page hidden">
+      <div class="panel"><div class="panel-head"><h3>Usuários e acessos</h3><button class="primary" onclick="openUser()">+ Novo usuário</button></div><div id="usersTable"></div></div>
+    </section>
+  </main>
+</div>
+
+<div id="modal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle"></h3><button onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
+<script src="app.js"></script>
+</body>
+</html>
